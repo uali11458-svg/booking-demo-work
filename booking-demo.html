@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imran Siddiqui, Electrician</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14202B; --paper:#EDF1F4; --white:#fff; --signal:#F5B800;
+  --green:#1C6B4F; --muted:#5B6B79; --line:#D5DDE4; --soft:#9FB0BF;
+}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"Public Sans",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;min-height:100vh}
+h1,h2,h3{font-family:"Bricolage Grotesque","Public Sans",system-ui,sans-serif;line-height:1.1}
+.wrap{display:grid;grid-template-columns:minmax(300px,360px) 1fr;min-height:100vh;max-width:1100px;margin:0 auto}
+
+/* profile */
+.profile{background:var(--ink);color:#E8EEF3;padding:40px 32px}
+.avatar{width:84px;height:84px;border-radius:50%;background:var(--signal);color:var(--ink);display:grid;place-items:center;font:800 30px "Bricolage Grotesque",sans-serif;margin-bottom:20px}
+.profile h1{font-size:34px;font-weight:800;color:#fff}
+.trade{margin-top:6px;color:var(--soft);font-size:15px}
+.facts{margin-top:26px;border-top:1px solid #2C3B4A}
+.facts div{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #2C3B4A;font-size:14.5px}
+.facts dt{color:var(--soft)}
+.facts dd{font-weight:600;text-align:right}
+.bio{margin-top:24px;font-size:15px;color:#C9D4DD;max-width:34ch}
+.verified{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-size:14px;font-weight:600;color:#fff}
+.verified::before{content:"";width:10px;height:10px;border-radius:50%;background:#4CC38A}
+
+/* services */
+.main{padding:40px 36px 48px;display:flex;flex-direction:column}
+.main h2{font-size:26px;font-weight:600}
+.sub{margin-top:6px;color:var(--muted);font-size:15px}
+fieldset{border:0;padding:0;margin:22px 0 0}
+.svc{display:block;position:relative;cursor:pointer}
+.svc input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer;margin:0}
+.row{display:grid;grid-template-columns:22px 1fr auto;gap:16px;align-items:start;padding:18px 14px;border-bottom:1px solid var(--line);background:transparent;transition:background .15s}
+.dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--soft);margin-top:2px;background:var(--white)}
+.name{font-weight:600;font-size:16.5px}
+.meta{color:var(--muted);font-size:14px;margin-top:2px}
+.price{font:800 19px "Bricolage Grotesque",sans-serif;white-space:nowrap}
+.svc input:checked + .row{background:var(--white)}
+.svc input:checked + .row .dot{border-color:var(--ink);background:radial-gradient(circle,var(--ink) 0 5px,var(--white) 6px)}
+.svc input:focus-visible + .row{outline:3px solid var(--signal);outline-offset:-3px}
+.svc:hover .row{background:rgba(255,255,255,.6)}
+
+/* booking bar */
+.book{margin-top:28px;background:var(--white);padding:22px;border-radius:6px;border-left:6px solid var(--signal)}
+.book label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.book input[type=date]{font:inherit;padding:10px 12px;border:1px solid var(--soft);border-radius:4px;background:var(--white);color:var(--ink);width:100%;max-width:240px}
+.book input[type=date]:focus-visible{outline:3px solid var(--signal);outline-offset:1px}
+.actions{display:flex;align-items:center;flex-wrap:wrap;gap:16px;margin-top:18px}
+button{font:600 16px "Public Sans",sans-serif;cursor:pointer;border:0;border-radius:4px;padding:13px 26px}
+.go{background:var(--signal);color:var(--ink)}
+.go:hover{background:#FFC91F}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.hold{font-size:13.5px;color:var(--muted);max-width:34ch}
+.err{color:#A32020;font-size:14.5px;font-weight:500;margin-top:12px;min-height:1.4em}
+
+/* confirmation */
+.done{display:none;margin-top:28px;background:var(--green);color:#fff;padding:26px 24px;border-radius:6px}
+.done.show{display:block;animation:pop .35s ease-out}
+.done h3{font-size:26px;font-weight:800}
+.done p{margin-top:8px;font-size:15.5px;max-width:46ch}
+.done dl{margin-top:16px;border-top:1px solid rgba(255,255,255,.3)}
+.done dl div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.3);font-size:14.5px}
+.done dd{font-weight:600;text-align:right}
+.again{margin-top:18px;background:transparent;color:#fff;border:2px solid #fff;padding:10px 20px}
+.again:hover{background:rgba(255,255,255,.14)}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.done.show{animation:none}.row{transition:none}}
+
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr}
+  .profile{padding:32px 22px}
+  .main{padding:28px 18px 40px}
+  .row{grid-template-columns:22px 1fr}
+  .price{grid-column:2}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="profile">
+    <div class="avatar" aria-hidden="true">IS</div>
+    <h1>Imran Siddiqui</h1>
+    <p class="trade">Electrician, Gulshan-e-Iqbal, Karachi</p>
+    <dl class="facts">
+      <div><dt>Experience</dt><dd>9 years</dd></div>
+      <div><dt>Jobs completed</dt><dd>126</dd></div>
+      <div><dt>Rating</dt><dd>4.8 out of 5</dd></div>
+      <div><dt>Replies within</dt><dd>1 hour</dd></div>
+      <div><dt>Languages</dt><dd>Urdu, Sindhi, English</dd></div>
+    </dl>
+    <p class="bio">Residential and small-shop wiring. I carry my own tools and test every circuit before I leave.</p>
+    <span class="verified">ID and trade certificate checked</span>
+  </aside>
+
+  <main class="main">
+    <h2>Services</h2>
+    <p class="sub">Pick one, choose a date, and send your booking request.</p>
+
+    <form id="f" novalidate>
+      <fieldset>
+        <legend class="sub" style="position:absolute;left:-9999px">Choose a service</legend>
+
+        <label class="svc"><input type="radio" name="svc" value="Fan and light installation" data-price="1,200" data-time="About 1 hour">
+          <span class="row"><span class="dot"></span>
+            <span><span class="name">Fan and light installation</span><br><span class="meta">About 1 hour, fittings supplied by you</span></span>
+            <span class="price">Rs 1,200</span></span></label>
+
+        <label class="svc"><input type="radio" name="svc" value="Wiring inspection" data-price="3,500" data-time="2 to 3 hours">
+          <span class="row"><span class="dot"></span>
+            <span><span class="name">Full wiring inspection</span><br><span class="meta">2 to 3 hours, written report included</span></span>
+            <span class="price">Rs 3,500</span></span></label>
+
+        <label class="svc"><input type="radio" name="svc" value="Breaker and DB board repair" data-price="4,500" data-time="About 3 hours">
+          <span class="row"><span class="dot"></span>
+            <span><span class="name">Breaker and DB board repair</span><br><span class="meta">About 3 hours, parts charged at cost</span></span>
+            <span class="price">Rs 4,500</span></span></label>
+
+        <label class="svc"><input type="radio" name="svc" value="Generator changeover switch" data-price="6,000" data-time="Half day">
+          <span class="row"><span class="dot"></span>
+            <span><span class="name">Generator changeover switch</span><br><span class="meta">Half day, includes load testing</span></span>
+            <span class="price">Rs 6,000</span></span></label>
+      </fieldset>
+
+      <div class="book" id="book">
+        <label for="date">Preferred date</label>
+        <input type="date" id="date" name="date">
+        <div class="actions">
+          <button type="submit" class="go">Book now</button>
+          <span class="hold">Payment is held safely and released only after the job is done.</span>
+        </div>
+        <p class="err" id="err" role="alert"></p>
+      </div>
+    </form>
+
+    <section class="done" id="done" aria-live="polite" tabindex="-1">
+      <h3>Booking confirmed</h3>
+      <p>Imran has your request and will message you to confirm the time.</p>
+      <dl>
+        <div><dt>Reference</dt><dd id="o-ref"></dd></div>
+        <div><dt>Service</dt><dd id="o-svc"></dd></div>
+        <div><dt>Date</dt><dd id="o-date"></dd></div>
+        <div><dt>Estimated time</dt><dd id="o-time"></dd></div>
+        <div><dt>Price</dt><dd id="o-price"></dd></div>
+      </dl>
+      <button type="button" class="again" id="again">Book another service</button>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  var form = document.getElementById('f');
+  var done = document.getElementById('done');
+  var err = document.getElementById('err');
+  var dateEl = document.getElementById('date');
+
+  // earliest bookable date is today
+  var t = new Date();
+  dateEl.min = t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var pick = form.querySelector('input[name="svc"]:checked');
+    if(!pick){ err.textContent = 'Please choose a service first.'; return; }
+    if(!dateEl.value){ err.textContent = 'Please pick a date for the visit.'; dateEl.focus(); return; }
+    err.textContent = '';
+
+    var d = new Date(dateEl.value + 'T00:00:00');
+    document.getElementById('o-ref').textContent = 'BK-' + (1000 + Math.floor(Math.random()*9000));
+    document.getElementById('o-svc').textContent = pick.value;
+    document.getElementById('o-date').textContent = d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    document.getElementById('o-time').textContent = pick.dataset.time;
+    document.getElementById('o-price').textContent = 'Rs ' + pick.dataset.price;
+
+    form.style.display = 'none';
+    done.classList.add('show');
+    done.focus();
+  });
+
+  document.getElementById('again').addEventListener('click', function(){
+    done.classList.remove('show');
+    form.reset();
+    form.style.display = '';
+    form.querySelector('input[name="svc"]').focus();
+  });
+})();
+</script>
+</body>
+</html>
